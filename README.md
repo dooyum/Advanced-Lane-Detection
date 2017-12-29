@@ -25,7 +25,8 @@ The goals / steps of this project are the following:
 [image6]: ./output_images/histogram.png "Lane Line Histogram"
 [image7]: ./output_images/detected_lane_curves.png "Detected Lane Curves"
 [image8]: ./output_images/overlay_lane.png "Overlay Detected Lane"
-[image8]: ./output_images/margin_of_similarity.png "Margin of Similarity"
+[image9]: ./output_images/margin_of_similarity.png "Margin of Similarity"
+[image10]: ./output_images/project_video.gif "Project Video"
 [video1]: ./output_vidoes/project_video.mp4 "Video" 
 
 ---
@@ -117,6 +118,8 @@ In order to avoid the extensive search and detection of new lanes for every fram
 If a new lane is found to be similar to the previously detected lane, we skip the step of computing a new curve and just use the previous lanes values. In the video, all frames marked `New model` fell outside our bounds of similarity, while frames marked `Precomputed`, are based on previously detected lane lines.
 
 The code that checks for similarities and performs calculated estimates can be found in the 13th, 15th and 23rd cells of [notebook](./notebook.ipynb).
+
+![alt text][image10]
 
 Here's a [link to my video result](./output_vidoes/project_video.mp4)
 
