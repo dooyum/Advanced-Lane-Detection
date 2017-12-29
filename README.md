@@ -20,8 +20,8 @@ The goals / steps of this project are the following:
 [image1]: ./output_images/chessboard_corners_drawn.png "Corners"
 [image2]: ./output_images/undistorted_chessboard_output.png "Undistorted"
 [image3]: ./output_images/chessboard_perspective_transform.png "Perspective Transform"
-[image4]: ./output_images/undistorted_and_transformed.png "Road Transformed"
-[image5]: ./output_images/binary_tranform "Binary Example"
+[image4]: ./output_images/undistorted_and_transformed.png "Undistorted and Transformed"
+[image5]: ./output_images/binary_transform.png "Binary Transform"
 [image6]: ./output_images/histogram.png "Lane Line Histogram"
 [image7]: ./output_images/detected_lane_curves.png "Detected Lane Curves"
 [image8]: ./output_images/overlay_lane.png "Overlay Detected Lane"
@@ -34,7 +34,7 @@ The goals / steps of this project are the following:
 
 #### 1. Chessboard corner detection
 
-The code for this step is contained in the cells 2 through 6, of the IPython notebook located in "./notebooks/notebook.ipynb".
+The code for this step is contained in the cells 2 through 6, of the IPython [notebook](./notebook.ipynb).
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.
 ![alt text][image1]
@@ -52,7 +52,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 I used the calibrated camera distortion and transform matrices to perform undistortion and perspective transform of the road images.
 ![alt text][image3]
 
-The code for my perspective transform includes a function called `transform_image()`, which appears in cells 7 through 10 of the IPython notebook located in "./notebooks/notebook.ipynb".  The `transform_image()` function takes as inputs an image (`image`), as well as camera distortion matrix (`camera_matrix`) and camera distortion coefficient (`camera_distortion`).  I chose to hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `transform_image()`, which appears in cells 7 through 10 of the IPython [notebook](./notebook.ipynb).  The `transform_image()` function takes as inputs an image (`image`), as well as camera distortion matrix (`camera_matrix`) and camera distortion coefficient (`camera_distortion`).  I chose to hardcode the source and destination points in the following manner:
 
 This resulted in the following source and destination points:
 
@@ -69,7 +69,7 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 2. Apply color and Sobel transforms to create binary image.
 
-I used a combination of HLS color and gradient thresholds to generate a binary image (thresholding steps in 11th cell of notebook `./notebooks/notebook.ipynb`). I created a binary image of detected lanes by using the saturation value of the HLS image combined with the detected edges that met the magnitude, direction and absolute threshold values of a Sobel transform. Here's an example of my output for this step.
+I used a combination of HLS color and gradient thresholds to generate a binary image (thresholding steps in 11th cell of [notebook](./notebook.ipynb)). I created a binary image of detected lanes by using the saturation value of the HLS image combined with the detected edges that met the magnitude, direction and absolute threshold values of a Sobel transform. Here's an example of my output for this step.
 
 ![alt text][image5]
 
@@ -82,14 +82,14 @@ As can be seen in the histograms below, there is a clear cluster of points for e
 
 ![alt text][image6]
 
-by selecting the `x` at the `maximum y` for the lane lines in each histogram, we created a collection of x and y values that were used to mathematically identify the lane. I fit my lane lines with a 2nd order polynomial to get the curve that fits all x an y values for the left and right lines of the lane. The detected curves can be seen in the image below as the yellow lines.
+by selecting the `x` at the `maximum y` for the lane lines in each histogram, I created a collection of x and y values that were used to mathematically identify the lane. I fit my lane lines with a 2nd order polynomial to get the curve that fits all x an y values for the left and right lines of the lane. The detected curves can be seen in the image below as the yellow lines.
 
 ![alt text][image7]
 
 
 #### 4. Calculate the radius of curvature and position of the vehicle with respect to center.
 
-I calculated the radius of curvature for the identified lane lines and the position of the vehicle with respect to the center of the lanes in the 19th cell of `./notebooks/notebook.ipynb`.
+I calculated the radius of curvature for the identified lane lines and the position of the vehicle with respect to the center of the lanes in the 19th cell of [notebook](./notebook.ipynb).
 
 The radius of curvature was derived by extrapolating the pixel dimensions of the image into real-life measurements based on lane size guidelines by the U.S.D.O.T. In the perspective transformed images, 100px vertically is equal to 3.048 meters, while 700px horizontally is equal to 3.7 meters.
 I fit my lane lines with a 2nd order polynomial to get the curve that fits all x an y values for the left and right lines using real life dimensions. The resulting curves give us the radius of curvature for each lane line.
@@ -98,7 +98,7 @@ The position of the vehicle with respect to the center of the lane was computed 
 
 #### 5. Overlay detected lane and reverse perspective transform
 
-I overlaid the detected lane back unto the perspective transformed image, then performed a reverse transform to get back the original perspective. This can be found on the 21st cell of `./notebooks/notebook.ipynb`.
+I overlaid the detected lane back unto the perspective transformed image, then performed a reverse transform to get back the original perspective. This can be found on the 21st cell of [notebook](./notebook.ipynb).
 
 Here's an example of what it looked like after overlaying and performing the reverse transform:
 
@@ -110,13 +110,13 @@ Here's an example of what it looked like after overlaying and performing the rev
 
 #### Use precomputed model of detected lanes
 
-In order to avoid the extensive search and detection of new lanes for every frame of the video, I performed a threshold check to see if the line values of the lane in the new images were similar to previous images. I did this by creating a margin of around previous lane lines to detect what I considered to be similar lane lines.
+In order to avoid the extensive search and detection of new lanes for every frame of the video, I performed a threshold check to see if the line values of the lane in the new images were similar to previous images. I did this by creating a margin around the previous lane lines to detect what I considered to be similar lane lines.
 
 ![alt text][image9]
 
-If a new lane is found to be similar, we skip the step of computing a new curve and just use the previous lanes values. In the video, all frames marked `New model` fell outside our bounds of similarity, while frames marked `Precomputed`, are based on previously detected lane lines.
+If a new lane is found to be similar to the previously detected lane, we skip the step of computing a new curve and just use the previous lanes values. In the video, all frames marked `New model` fell outside our bounds of similarity, while frames marked `Precomputed`, are based on previously detected lane lines.
 
-The code that checks for similarities and performs calculated estimates can be found in the 13th, 15th and 23rd cells of `./notebooks/notebook.ipynb`.
+The code that checks for similarities and performs calculated estimates can be found in the 13th, 15th and 23rd cells of [notebook](./notebook.ipynb).
 
 Here's a [link to my video result](./output_vidoes/project_video.mp4)
 
