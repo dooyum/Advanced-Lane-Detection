@@ -90,7 +90,7 @@ by selecting the `x` at the `maximum y` for the lane lines in each histogram, I 
 
 #### 4. Calculate the radius of curvature and position of the vehicle with respect to center.
 
-I calculated the radius of curvature for the identified lane lines and the position of the vehicle with respect to the center of the lanes in the 19th cell of [notebook](./notebook.ipynb).
+I calculated the radius of curvature for the identified lane lines and the position of the vehicle with respect to the center of the lanes in the 17th cell of [notebook](./notebook.ipynb).
 
 The radius of curvature was derived by extrapolating the pixel dimensions of the image into real-life measurements based on lane size guidelines by the U.S.D.O.T. In the perspective transformed images, 100px vertically is equal to 3.048 meters, while 700px horizontally is equal to 3.7 meters.
 I fit my lane lines with a 2nd order polynomial to get the curve that fits all x an y values for the left and right lines using real life dimensions. The resulting curves give us the radius of curvature for each lane line.
@@ -99,7 +99,7 @@ The position of the vehicle with respect to the center of the lane was computed 
 
 #### 5. Overlay detected lane and reverse perspective transform
 
-I overlaid the detected lane back unto the perspective transformed image, then performed a reverse transform to get back the original perspective. This can be found on the 21st cell of [notebook](./notebook.ipynb).
+I overlaid the detected lane back unto the perspective transformed image, then performed a reverse transform to get back the original perspective. This can be found on the 18th cell of [notebook](./notebook.ipynb).
 
 Here's an example of what it looked like after overlaying and performing the reverse transform:
 
@@ -117,7 +117,7 @@ In order to avoid the extensive search and detection of new lanes for every fram
 
 If a new lane is found to be similar to the previously detected lane, we skip the step of computing a new curve and just use the previous lanes values. In the video, all frames marked `New model` fell outside our bounds of similarity, while frames marked `Precomputed`, are based on previously detected lane lines.
 
-The code that checks for similarities and performs calculated estimates can be found in the 13th, 15th and 23rd cells of [notebook](./notebook.ipynb).
+The code that checks for similarities and performs calculated estimates can be found in the 13th, 15th and 20th cells of [notebook](./notebook.ipynb).
 
 ![alt text][image10]
 
